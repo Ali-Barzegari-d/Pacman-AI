@@ -34,7 +34,6 @@ def checkSolution(problem, path):
     state = followAction(state, action, problem)
   return problem.isGoalState(state)
 
-# Search problem on a plain graph
 class GraphSearch(SearchProblem):
 
     # Read in the state graph; define start/end states, edges and costs
@@ -77,11 +76,9 @@ class GraphSearch(SearchProblem):
         for s in all_states:
             if s not in self.children:
                 self.children[s] = []
-
     # Get start state
     def getStartState(self):
         return self.start_state
-
     # Check if a state is a goal state
     def isGoalState(self, state):
         return state in self.goals
@@ -147,8 +144,6 @@ class GraphSearch(SearchProblem):
 goal_states: %s
 %s""" % (self.start_state, " ".join(self.goals), "\n".join(edges))
 
-
-
 def parseHeuristic(heuristicText):
     heuristic = {}
     for line in heuristicText.split('\n'):
@@ -171,8 +166,6 @@ def parseHeuristic(heuristicText):
             raise Exception("Graph heuristic called with invalid state: " + str(state))
 
     return graphHeuristic
-
-
 class GraphSearchTest(testClasses.TestCase):
 
     def __init__(self, question, testDict):
@@ -185,9 +178,6 @@ class GraphSearchTest(testClasses.TestCase):
             self.heuristic = parseHeuristic(testDict['heuristic'])
         else:
             self.heuristic = None
-
-    # Note that the return type of this function is a tripple:
-    # (solution, expanded states, error message)
     def getSolInfo(self, search):
         alg = getattr(search, self.alg)
         problem = GraphSearch(self.graph_text)
@@ -259,8 +249,6 @@ class GraphSearchTest(testClasses.TestCase):
         handle.close()
         return True
 
-
-
 class PacmanSearchTest(testClasses.TestCase):
 
     def __init__(self, question, testDict):
@@ -317,8 +305,6 @@ class PacmanSearchTest(testClasses.TestCase):
             grades.addMessage('%s' % error)
             return False
 
-        # FIXME: do we want to standardize test output format?
-
         if solution not in gold_solution:
             grades.addMessage('FAIL: %s' % self.path)
             grades.addMessage('Solution not correct.')
@@ -344,8 +330,6 @@ class PacmanSearchTest(testClasses.TestCase):
         grades.addMessage('\tsolution length: %s' % len(solution))
         grades.addMessage('\tnodes expanded:\t\t%s' % expanded)
         return True
-
-
     def writeSolution(self, moduleDict, filePath):
         search = moduleDict['search']
         searchAgents = moduleDict['searchAgents']
@@ -356,25 +340,19 @@ class PacmanSearchTest(testClasses.TestCase):
         handle.write('# and left-to-right implementations.\n')
         handle.write('# Number of nodes expanded must be with a factor of %s of the numbers below.\n' % self.leewayFactor)
 
-        # write forward solution
         solution, expanded, error = self.getSolInfo(search, searchAgents)
         if error != None: raise Exception("Error in solution code: %s" % error)
         handle.write('solution: """\n%s\n"""\n' % wrap_solution(solution))
         handle.write('expanded_nodes: "%s"\n' % expanded)
-
-        # write backward solution
         search.REVERSE_PUSH = not search.REVERSE_PUSH
         solution, expanded, error = self.getSolInfo(search, searchAgents)
         if error != None: raise Exception("Error in solution code: %s" % error)
         handle.write('rev_solution: """\n%s\n"""\n' % wrap_solution(solution))
         handle.write('rev_expanded_nodes: "%s"\n' % expanded)
 
-        # clean up
         search.REVERSE_PUSH = not search.REVERSE_PUSH
         handle.close()
         return True
-
-
 from game import Actions
 def getStatesFromPath(start, path):
     "Returns the list of states visited along the path"
@@ -386,7 +364,6 @@ def getStatesFromPath(start, path):
         curr = (int(x + dx), int(y + dy))
         vis.append(curr)
     return vis
-
 class CornerProblemTest(testClasses.TestCase):
 
     def __init__(self, question, testDict):
@@ -444,7 +421,6 @@ class CornerProblemTest(testClasses.TestCase):
         # open file and write comments
         handle = open(filePath, 'w')
         handle.write('# This is the solution file for %s.\n' % self.path)
-
         print("Solving problem", self.layoutName)
         print(self.layoutText)
 
@@ -454,7 +430,6 @@ class CornerProblemTest(testClasses.TestCase):
 
         handle.write('solution_length: "%s"\n' % length)
         handle.close()
-
 
 class HeuristicTest(testClasses.TestCase):
 
@@ -478,7 +453,6 @@ class HeuristicTest(testClasses.TestCase):
 
     def checkHeuristic(self, heuristic, problem, state, solutionCost):
         h0 = heuristic(state, problem)
-
         if solutionCost == 0:
             if h0 == 0:
                 return True, ''
@@ -532,8 +506,6 @@ class HeuristicTest(testClasses.TestCase):
         handle.write('solution_cost: "%s"\n' % cost)
         handle.close()
         return True
-
-
 class HeuristicGrade(testClasses.TestCase):
 
     def __init__(self, question, testDict):
@@ -595,7 +567,6 @@ class HeuristicGrade(testClasses.TestCase):
         handle.close()
         return True
 
-
 class ClosestDotTest(testClasses.TestCase):
 
     def __init__(self, question, testDict):
@@ -650,7 +621,6 @@ class ClosestDotTest(testClasses.TestCase):
         handle.write('solution_length: "%s"\n' % length)
         handle.close()
         return True
-
 class CornerHeuristicSanity(testClasses.TestCase):
 
     def __init__(self, question, testDict):
@@ -725,7 +695,6 @@ class CornerHeuristicSanity(testClasses.TestCase):
         handle.write('path: """\n%s\n"""\n' % wrap_solution(solution))
         handle.close()
         return True
-
 class CornerHeuristicPacman(testClasses.TestCase):
 
     def __init__(self, question, testDict):
@@ -774,7 +743,6 @@ class CornerHeuristicPacman(testClasses.TestCase):
         handle.write('# as well as the thresholds on number of nodes expanded to be\n')
         handle.write('# used in scoring.\n')
 
-        # solve problem and write solution
         lay = layout.Layout([l.strip() for l in self.layout_text.split('\n')])
         start_state = pacman.GameState()
         start_state.initialize(lay, 0)

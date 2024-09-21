@@ -1,20 +1,9 @@
 import util
-
 class SearchProblem:
-    
-
     def getStartState(self):
-        """
-        Returns the start state for the search problem.
-        """
         util.raiseNotDefined()
 
     def isGoalState(self, state):
-        """
-          state: Search state
-
-        Returns True if and only if the state is a valid goal state.
-        """
         util.raiseNotDefined()
 
     def expand(self, state):
@@ -22,11 +11,6 @@ class SearchProblem:
         util.raiseNotDefined()
 
     def getActions(self, state):
-        """
-          state: Search state
-
-        For a given state, this should return a list of possible actions.
-        """
         util.raiseNotDefined()
 
     def getActionCost(self, state, action, next_state):
@@ -74,8 +58,7 @@ def depthFirstSearch(problem):
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
-    """Search the shallowest nodes in the search tree first."""
-    "*** YOUR CODE HERE ***"
+   
     explored = set()  
     frontier = util.Queue() 
     frontier.push((problem.getStartState(), []))  
@@ -136,7 +119,6 @@ def aStarSearch(problem, heuristic=manhattanHeuristic):
 
 
 def uniformCostSearch(problem: SearchProblem):
-    """Search the node of least total cost first."""
     explored = set() 
     frontier = util.PriorityQueue()  
     startState = problem.getStartState()

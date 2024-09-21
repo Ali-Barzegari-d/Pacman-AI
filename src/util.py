@@ -1,7 +1,6 @@
 import sys
 import inspect
 import heapq, random
-
 class FixedRandom:
     def __init__(self):
         fixedState = (3, (2147483648, 507801126, 683453281, 310439348, 2597246090, \
@@ -97,45 +96,30 @@ class FixedRandom:
         self.random = random.Random()
         self.random.setstate(fixedState)
 
-"""
- Data structures useful for implementing SearchAgents
-"""
-
 class Stack:
-    "A container with a last-in-first-out (LIFO) queuing policy."
     def __init__(self):
         self.list = []
 
     def push(self,item):
-        "Push 'item' onto the stack"
         self.list.append(item)
 
     def pop(self):
-        "Pop the most recently pushed item from the stack"
         return self.list.pop()
 
     def isEmpty(self):
-        "Returns true if the stack is empty"
         return len(self.list) == 0
 
 class Queue:
-    "A container with a first-in-first-out (FIFO) queuing policy."
     def __init__(self):
         self.list = []
 
     def push(self,item):
-        "Enqueue the 'item' into the queue"
         self.list.insert(0,item)
 
     def pop(self):
-        """
-          Dequeue the earliest enqueued item still in the queue. This
-          operation removes the item from the queue.
-        """
         return self.list.pop()
 
     def isEmpty(self):
-        "Returns true if the queue is empty"
         return len(self.list) == 0
 
 class PriorityQueue:
@@ -172,17 +156,17 @@ class PriorityQueue:
 class PriorityQueueWithFunction(PriorityQueue):
     
     def  __init__(self, priorityFunction):
-        "priorityFunction (item) -> priority"
-        self.priorityFunction = priorityFunction      # store the priority function
-        PriorityQueue.__init__(self)        # super-class initializer
+       
+        self.priorityFunction = priorityFunction     
+        PriorityQueue.__init__(self)       
 
     def push(self, item):
-        "Adds an item to the queue with priority from the priority function"
+
         PriorityQueue.push(self, item, self.priorityFunction(item))
 
 
 def manhattanDistance( xy1, xy2 ):
-    "Returns the Manhattan distance between points xy1 and xy2"
+
     return abs( xy1[0] - xy2[0] ) + abs( xy1[1] - xy2[1] )
 
 
@@ -193,23 +177,10 @@ class Counter(dict):
         return dict.__getitem__(self, idx)
 
     def incrementAll(self, keys, count):
-        """
-        Increments all elements of keys by the same count.
-
-        >>> a = Counter()
-        >>> a.incrementAll(['one','two', 'three'], 1)
-        >>> a['one']
-        1
-        >>> a['two']
-        1
-        """
         for key in keys:
             self[key] += count
 
     def argMax(self):
-        """
-        Returns the key with the highest value.
-        """
         if len(self.keys()) == 0: return None
         all = self.items()
         values = [x[1] for x in all]
@@ -224,9 +195,6 @@ class Counter(dict):
         return [x[0] for x in sortedItems]
 
     def totalCount(self):
-        """
-        Returns the sum of counts for all keys.
-        """
         return sum(self.values())
 
     def normalize(self):
@@ -237,17 +205,12 @@ class Counter(dict):
             self[key] = self[key] / total
 
     def divideAll(self, divisor):
-        """
-        Divides all counts by divisor
-        """
         divisor = float(divisor)
         for key in self:
             self[key] /= divisor
 
     def copy(self):
-        """
-        Returns a copy of the counter
-        """
+       
         return Counter(dict.copy(self))
 
     def __mul__(self, y ):
@@ -302,9 +265,6 @@ def raiseNotDefined():
     print("*** Method not implemented: %s at line %s of %s" % (method, line, fileName))
     sys.exit(1)
 def normalize(vectorOrCounter):
-    """
-    normalize a vector or counter by dividing each value by the sum of all values
-    """
     normalizedCounter = Counter()
     if type(vectorOrCounter) == type(normalizedCounter):
         counter = vectorOrCounter
@@ -354,10 +314,6 @@ def sampleFromCounter(ctr):
     return sample([v for k,v in items], [k for k,v in items])
 
 def getProbability(value, distribution, values):
-    """
-      Gives the probability of a value under a discrete distribution
-      defined by (distributions, values).
-    """
     total = 0.0
     for prob, val in zip(distribution, values):
         if val == value:
@@ -369,7 +325,6 @@ def flipCoin( p ):
     return r < p
 
 def chooseFromDistribution( distribution ):
-    "Takes either a counter or a list of (prob, key) pairs and samples"
     if type(distribution) == dict or type(distribution) == Counter:
         return sample(distribution)
     r = random.random()
@@ -378,26 +333,17 @@ def chooseFromDistribution( distribution ):
         base += prob
         if r <= base: return element
 def nearestPoint( pos ):
-    """
-    Finds the nearest grid point to a position (discretizes).
-    """
     ( current_row, current_col ) = pos
 
     grid_row = int( current_row + 0.5 )
     grid_col = int( current_col + 0.5 )
     return ( grid_row, grid_col )
 def sign( x ):
-    """
-    Returns 1 or -1 depending on the sign of x
-    """
     if( x >= 0 ):
         return 1
     else:
         return -1
 def arrayInvert(array):
-    """
-    Inverts a matrix stored as a list of lists.
-    """
     result = [[] for i in array]
     for outer in array:
         for inner in range(len(outer)):
@@ -405,9 +351,6 @@ def arrayInvert(array):
     return result
 
 def matrixAsList( matrix, value = True ):
-    """
-    Turns a matrix into a list of coordinates matching the specified value
-    """
     rows, cols = len( matrix ), len( matrix[0] )
     cells = []
     for row in range( rows ):
@@ -417,10 +360,6 @@ def matrixAsList( matrix, value = True ):
     return cells
 
 def lookup(name, namespace):
-    """
-    Get a method or class from any imported module from its name.
-    Usage: lookup(functionName, globals())
-    """
     dots = name.count('.')
     if dots > 0:
         moduleName, objName = '.'.join(name.split('.')[:-1]), name.split('.')[-1]
@@ -435,16 +374,10 @@ def lookup(name, namespace):
         raise Exception('%s not found as a method or class' % name)
 
 def pause():
-    """
-    Pauses the output stream awaiting user feedback.
-    """
     input("<Press enter/return to continue>")
-
-
 import signal
 import time
 class TimeoutFunctionException(Exception):
-    """Exception to raise on a timeout"""
     pass
 class TimeoutFunction:
     def __init__(self, function, timeout):
@@ -486,9 +419,8 @@ def mutePrint():
     _MUTED = True
 
     _ORIGINAL_STDOUT = sys.stdout
-    #_ORIGINAL_STDERR = sys.stderr
+
     sys.stdout = WritableNull()
-    #sys.stderr = WritableNull()
 
 def unmutePrint():
     global _ORIGINAL_STDOUT, _ORIGINAL_STDERR, _MUTED
@@ -497,4 +429,3 @@ def unmutePrint():
     _MUTED = False
 
     sys.stdout = _ORIGINAL_STDOUT
-    #sys.stderr = _ORIGINAL_STDERR

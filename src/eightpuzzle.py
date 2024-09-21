@@ -1,11 +1,8 @@
 import search
 import random
-
 class EightPuzzleState:
     
-
-    def __init__( self, numbers ):
-        
+    def __init__( self, numbers ):    
         self.cells = []
         numbers = numbers[:] # Make a copy so as not to cause side-effects.
         numbers.reverse()
@@ -15,9 +12,7 @@ class EightPuzzleState:
                 self.cells[row].append( numbers.pop() )
                 if self.cells[row][col] == 0:
                     self.blankLocation = row, col
-
     def isGoal( self ):
-        
         current = 0
         for row in range( 3 ):
             for col in range( 3 ):
@@ -25,23 +20,15 @@ class EightPuzzleState:
                     return False
                 current += 1
         return True
-
     def legalMoves( self ):
-        
         moves = []
         row, col = self.blankLocation
-        if(row != 0):
-            moves.append('up')
-        if(row != 2):
-            moves.append('down')
-        if(col != 0):
-            moves.append('left')
-        if(col != 2):
-            moves.append('right')
+        if(row != 0):moves.append('up')
+        if(row != 2):moves.append('down')
+        if(col != 0):moves.append('left')
+        if(col != 2):moves.append('right')
         return moves
-
     def result(self, move):
-        
         row, col = self.blankLocation
         if(move == 'up'):
             newrow = row - 1
@@ -60,22 +47,15 @@ class EightPuzzleState:
         # Create a copy of the current eightPuzzle
         newPuzzle = EightPuzzleState([0, 0, 0, 0, 0, 0, 0, 0, 0])
         newPuzzle.cells = [values[:] for values in self.cells]
-        # And update it to reflect the move
+
         newPuzzle.cells[row][col] = self.cells[newrow][newcol]
         newPuzzle.cells[newrow][newcol] = self.cells[row][col]
         newPuzzle.blankLocation = newrow, newcol
 
         return newPuzzle
-    # Utilities for comparison and display
-    def __eq__(self, other):
-        """
-            Overloads '==' such that two eightPuzzles with the same configuration
-          are equal.
 
-          >>> EightPuzzleState([0, 1, 2, 3, 4, 5, 6, 7, 8]) == \
-              EightPuzzleState([1, 0, 2, 3, 4, 5, 6, 7, 8]).result('left')
-          True
-        """
+    def __eq__(self, other):
+     
         for row in range( 3 ):
             if self.cells[row] != other.cells[row]:
                 return False
@@ -85,9 +65,7 @@ class EightPuzzleState:
         return hash(str(self.cells))
 
     def __getAsciiString(self):
-        """
-          Returns a display string for the maze
-        """
+        
         lines = []
         horizontalLine = ('-' * (13))
         lines.append(horizontalLine)
@@ -104,13 +82,8 @@ class EightPuzzleState:
     def __str__(self):
         return self.__getAsciiString()
 
-# TODO: Implement The methods in this class
 class EightPuzzleSearchProblem(search.SearchProblem):
-    """
-      Implementation of a SearchProblem for the  Eight Puzzle domain
-
-      Each state is represented by an instance of an eightPuzzle.
-    """
+ 
     def __init__(self,puzzle):
         "Creates a new EightPuzzleSearchProblem which stores search information."
         self.puzzle = puzzle
@@ -143,12 +116,7 @@ class EightPuzzleSearchProblem(search.SearchProblem):
         return state.result(action)
 
     def getCostOfActionSequence(self, actions):
-        """
-         actions: A list of actions to take
-
-        This method returns the total cost of a particular sequence of actions.  The sequence must
-        be composed of legal moves
-        """
+       
         return len(actions)
 
 EIGHT_PUZZLE_DATA = [[1, 0, 2, 3, 4, 5, 6, 7, 8],
@@ -163,13 +131,7 @@ def loadEightPuzzle(puzzleNumber):
     return EightPuzzleState(EIGHT_PUZZLE_DATA[puzzleNumber])
 
 def createRandomEightPuzzle(moves=100):
-    """
-      moves: number of random moves to apply
-
-      Creates a random eight puzzle by applying
-      a series of 'moves' random moves to a solved
-      puzzle.
-    """
+   
     puzzle = EightPuzzleState([0,1,2,3,4,5,6,7,8])
     for i in range(moves):
         # Execute a random legal move

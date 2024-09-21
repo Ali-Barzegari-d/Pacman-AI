@@ -10,7 +10,6 @@ import sys, types, time, random, os
 
 class GameState:
     
-    # static variable keeps track of which states have had getLegalActions called
     explored = set()
     def getAndResetExplored():
         tmp = GameState.explored.copy()
@@ -19,10 +18,6 @@ class GameState:
     getAndResetExplored = staticmethod(getAndResetExplored)
 
     def getLegalActions( self, agentIndex=0 ):
-        """
-        Returns the legal actions for the agent specified.
-        """
-#        GameState.explored.add(self)
         if self.isWin() or self.isLose(): return []
 
         if agentIndex == 0:  # Pacman is moving
@@ -31,16 +26,10 @@ class GameState:
             return GhostRules.getLegalActions( self, agentIndex )
 
     def generateChild( self, agentIndex, action):
-        """
-        Returns the child state after the specified agent takes the action.
-        """
-        # Check that children exist
+     
         if self.isWin() or self.isLose(): raise Exception('Can\'t generate a child of a terminal state.')
 
-        # Copy current state
         state = GameState(self)
-
-        # Let agent's logic deal with its action's effects on the board
         if agentIndex == 0:  # Pacman is moving
             state.data._eaten = [False for i in range(state.getNumAgents())]
             PacmanRules.applyAction( state, action )
@@ -67,9 +56,7 @@ class GameState:
         return self.getLegalActions( 0 )
 
     def generatePacmanChild( self, action ):
-        """
-        Generates the child state after the specified pacman move
-        """
+        
         return self.generateChild( 0, action )
 
     def getPacmanState( self ):
@@ -102,9 +89,6 @@ class GameState:
         return float(self.data.score)
 
     def getCapsules(self):
-        """
-        Returns a list of positions (x,y) of the remaining capsules.
-        """
         return self.data.capsules
 
     def getNumFood( self ):
@@ -131,9 +115,6 @@ class GameState:
         return self.data._win
 
     def __init__( self, prevState = None ):
-        """
-        Generates a new state by copying information from its predecessor.
-        """
         if prevState != None: # Initial state
             self.data = GameStateData(prevState.data)
         else:
@@ -145,15 +126,9 @@ class GameState:
         return state
 
     def __eq__( self, other ):
-        """
-        Allows two states to be compared.
-        """
         return hasattr(other, 'data') and self.data == other.data
 
     def __hash__( self ):
-        """
-        Allows states to be keys of dictionaries.
-        """
         return hash( self.data )
 
     def __str__( self ):
@@ -161,9 +136,6 @@ class GameState:
         return str(self.data)
 
     def initialize( self, layout, numGhostAgents=1000 ):
-        """
-        Creates an initial game state from a layout array (see layout.py).
-        """
         self.data.initialize(layout, numGhostAgents)
 
 SCARED_TIME = 40    # Moves ghosts are scared
@@ -186,9 +158,7 @@ class ClassicGameRules:
         return game
 
     def process(self, state, game):
-        """
-        Checks to see whether it is time to end the game.
-        """
+        
         if state.isWin(): self.win(state, game)
         if state.isLose(): self.lose(state, game)
 
@@ -225,34 +195,25 @@ class ClassicGameRules:
         return 0
 
 class PacmanRules:
-    """
-    These functions govern how pacman interacts with his environment under
-    the classic game rules.
-    """
+
     PACMAN_SPEED=1
 
     def getLegalActions( state ):
-        """
-        Returns a list of possible actions.
-        """
+       
         return Actions.getPossibleActions( state.getPacmanState().configuration, state.data.layout.walls )
     getLegalActions = staticmethod( getLegalActions )
 
     def applyAction( state, action ):
-        """
-        Edits the state to reflect the results of the action.
-        """
+        
         legal = PacmanRules.getLegalActions( state )
         if action not in legal:
             raise Exception("Illegal action " + str(action))
 
         pacmanState = state.data.agentStates[0]
 
-        # Update Configuration
         vector = Actions.directionToVector( action, PacmanRules.PACMAN_SPEED )
         pacmanState.configuration = pacmanState.configuration.generateChild( vector )
 
-        # Eat
         next = pacmanState.configuration.getPosition()
         nearest = nearestPoint( next )
         if manhattanDistance( nearest, next ) <= 0.5 :
@@ -283,15 +244,10 @@ class PacmanRules:
     consume = staticmethod( consume )
 
 class GhostRules:
-    """
-    These functions dictate how ghosts interact with their environment.
-    """
+
     GHOST_SPEED=1.0
     def getLegalActions( state, ghostIndex ):
-        """
-        Ghosts cannot stop, and cannot turn around unless they
-        reach a dead end, but can turn 90 degrees at intersections.
-        """
+    
         conf = state.getGhostState( ghostIndex ).configuration
         possibleActions = Actions.getPossibleActions( conf, state.data.layout.walls )
         reverse = Actions.reverseDirection( conf.direction )
@@ -375,18 +331,9 @@ def parseAgentArgs(str):
     return opts
 
 def readCommand( argv ):
-    """
-    Processes the command used to run pacman from the command line.
-    """
+   
     from optparse import OptionParser
-    usageStr = """
-    USAGE:      python pacman.py <options>
-    EXAMPLES:   (1) python pacman.py
-                    - starts an interactive game
-                (2) python pacman.py --layout smallClassic --zoom 2
-                OR  python pacman.py -l smallClassic -z 2
-                    - starts an interactive game on a smaller board, zoomed in
-    """
+    
     parser = OptionParser(usageStr)
 
     parser.add_option('-n', '--numGames', dest='numGames', type='int',
@@ -471,8 +418,6 @@ def readCommand( argv ):
     args['record'] = options.record
     args['catchExceptions'] = options.catchExceptions
     args['timeout'] = options.timeout
-
-    # Special case: recorded games don't use the runGames method or args structure
     if options.gameToReplay != None:
         print('Replaying recorded game %s.' % options.gameToReplay)
         import pickle
@@ -571,6 +516,4 @@ if __name__ == '__main__':
     args = readCommand( sys.argv[1:] ) # Get game components based on input
     runGames( **args )
 
-    # import cProfile
-    # cProfile.run("runGames( **args )")
     pass

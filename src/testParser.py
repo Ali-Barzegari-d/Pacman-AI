@@ -1,13 +1,10 @@
 import re
 import sys
-
 class TestParser(object):
 
     def __init__(self, path):
-        # save the path to the test file
         self.path = path
     def removeComments(self, rawlines):
-        # remove any portion of a line following a '#' symbol
         fixed_lines = []
         for l in rawlines:
             idx = l.find('#')
@@ -18,7 +15,6 @@ class TestParser(object):
         return '\n'.join(fixed_lines)
 
     def parse(self):
-        # read in the test case and remove comments
         test = {}
         with open(self.path) as handle:
             raw_lines = handle.read().split('\n')
@@ -56,7 +52,6 @@ class TestParser(object):
             print('error parsing test file: %s' % self.path)
             sys.exit(1)
         return test
-
 def emitTestDict(testDict, handle):
     for kind, data in testDict['__emit__']:
         if kind == "raw":

@@ -3,10 +3,6 @@ from game import Directions
 import random
 
 class KeyboardAgent(Agent):
-    """
-    An agent controlled by the keyboard.
-    """
-    # NOTE: Arrow keys also work.
     WEST_KEY  = 'a'
     EAST_KEY  = 'd'
     NORTH_KEY = 'w'
@@ -30,7 +26,6 @@ class KeyboardAgent(Agent):
         move = self.getMove(legal)
 
         if move == Directions.STOP:
-            # Try to move in the same direction as before
             if self.lastMove in legal:
                 move = self.lastMove
 
@@ -50,10 +45,6 @@ class KeyboardAgent(Agent):
         if   (self.SOUTH_KEY in self.keys or 'Down' in self.keys) and Directions.SOUTH in legal: move = Directions.SOUTH
         return move
 class KeyboardAgent2(KeyboardAgent):
-    """
-    A second agent controlled by the keyboard.
-    """
-    # NOTE: Arrow keys also work.
     WEST_KEY  = 'j'
     EAST_KEY  = "l"
     NORTH_KEY = 'i'

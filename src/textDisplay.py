@@ -55,7 +55,6 @@ class PacmanGraphics:
                 self.pause()
         if state._win or state._lose:
             self.draw(state)
-
     def pause(self):
         time.sleep(SLEEP_TIME)
 

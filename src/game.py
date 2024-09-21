@@ -3,34 +3,24 @@ from util import *
 import time, os
 import traceback
 import sys
-
 class Agent:
-    
     def __init__(self, index=0):
         self.index = index
 
     def getAction(self, state):
-        """
-        The Agent will receive a GameState (from either {pacman, capture, sonar}.py) and
-        must return an action from Directions.{North, South, East, West, Stop}
-        """
         raiseNotDefined()
-
 class Directions:
     NORTH = 'North'
     SOUTH = 'South'
     EAST = 'East'
     WEST = 'West'
     STOP = 'Stop'
-
     LEFT =       {NORTH: WEST,
                    SOUTH: EAST,
                    EAST:  NORTH,
                    WEST:  SOUTH,
                    STOP:  STOP}
-
     RIGHT =      dict([(y,x) for x, y in LEFT.items()])
-
     REVERSE = {NORTH: SOUTH,
                SOUTH: NORTH,
                EAST: WEST,
@@ -38,21 +28,16 @@ class Directions:
                STOP: STOP}
 
 class Configuration:
-
     def __init__(self, pos, direction):
         self.pos = pos
         self.direction = direction
-
     def getPosition(self):
         return (self.pos)
-
     def getDirection(self):
         return self.direction
-
     def isInteger(self):
         x,y = self.pos
         return x == int(x) and y == int(y)
-
     def __eq__(self, other):
         if other == None: return False
         return (self.pos == other.pos and self.direction == other.direction)
@@ -75,9 +60,6 @@ class Configuration:
         return Configuration((x + dx, y+dy), direction)
 
 class AgentState:
-    """
-    AgentStates hold the state of an agent (configuration, speed, scared, etc).
-    """
 
     def __init__( self, startConfiguration, isPacman ):
         self.start = startConfiguration
@@ -115,7 +97,6 @@ class AgentState:
 
     def getDirection(self):
         return self.configuration.getDirection()
-
 class Grid:
     
     def __init__(self, width, height, initialValue=False, bitRepresentation=None):
@@ -178,11 +159,7 @@ class Grid:
         return list
 
     def packBits(self):
-        """
-        Returns an efficient int list representation
-
-        (width, height, bitPackedInts...)
-        """
+       
         bits = [self.width, self.height]
         currentInt = 0
         for i in range(self.height * self.width):
@@ -202,9 +179,6 @@ class Grid:
         return x, y
 
     def _unpackBits(self, bits):
-        """
-        Fills in data from a bit-level representation
-        """
         cell = 0
         for packed in bits:
             for bit in self._unpackInt(packed, self.CELLS_PER_INT):
@@ -232,20 +206,14 @@ def reconstituteGrid(bitRep):
     return Grid(width, height, bitRepresentation= bitRep[2:])
 
 class Actions:
-    """
-    A collection of static methods for manipulating move actions.
-    """
     # Directions
     _directions = {Directions.NORTH: (0, 1),
                    Directions.SOUTH: (0, -1),
                    Directions.EAST:  (1, 0),
                    Directions.WEST:  (-1, 0),
                    Directions.STOP:  (0, 0)}
-
     _directionsAsList = _directions.items()
-
     TOLERANCE = .001
-
     def reverseDirection(action):
         if action == Directions.NORTH:
             return Directions.SOUTH
@@ -292,7 +260,6 @@ class Actions:
             if not walls[next_x][next_y]: possible.append(dir)
 
         return possible
-
     getPossibleActions = staticmethod(getPossibleActions)
 
     def getLegalNeighbors(position, walls):
@@ -316,13 +283,7 @@ class Actions:
     getChild = staticmethod(getChild)
 
 class GameStateData:
-    """
-
-    """
     def __init__( self, prevState = None ):
-        """
-        Generates a new data packet by copying information from its predecessor.
-        """
         if prevState != None:
             self.food = prevState.food.shallowCopy()
             self.capsules = prevState.capsules[:]
@@ -356,9 +317,6 @@ class GameStateData:
         return copiedStates
 
     def __eq__( self, other ):
-        """
-        Allows two states to be compared.
-        """
         if other == None: return False
         # TODO Check for type of other
         if not self.agentStates == other.agentStates: return False
@@ -368,9 +326,6 @@ class GameStateData:
         return True
 
     def __hash__( self ):
-        """
-        Allows states to be keys of dictionaries.
-        """
         for i, state in enumerate( self.agentStates ):
             try:
                 int(hash(state))
@@ -432,9 +387,7 @@ class GameStateData:
         return 'E'
 
     def initialize( self, layout, numGhostAgents ):
-        """
-        Creates an initial game state from a layout array (see layout.py).
-        """
+
         self.food = layout.food.copy()
         #self.capsules = []
         self.capsules = layout.capsules[:]
@@ -456,11 +409,8 @@ try:
     _BOINC_ENABLED = True
 except:
     _BOINC_ENABLED = False
-
 class Game:
-    """
-    The Game manages the control flow, soliciting actions from agents.
-    """
+
     def __init__( self, agents, display, rules, startingIndex=0, muteAgents=False, catchExceptions=False ):
         self.agentCrashed = False
         self.agents = agents
@@ -476,7 +426,6 @@ class Game:
         self.agentTimeout = False
         import io
         self.agentOutput = [io.StringIO() for agent in agents]
-
     def getProgress(self):
         if self.gameOver:
             return 1.0
@@ -484,7 +433,6 @@ class Game:
             return self.rules.getProgress(self)
 
     def _agentCrash( self, agentIndex, quiet=False):
-        "Helper method for handling agent crashes"
         if not quiet: traceback.print_exc()
         self.gameOver = True
         self.agentCrashed = True
@@ -510,20 +458,14 @@ class Game:
         sys.stderr = OLD_STDERR
 
     def run( self ):
-        """
-        Main control loop for game play.
-        """
         self.display.initialize(self.state.data)
         self.numMoves = 0
 
-        ###self.display.initialize(self.state.makeObservation(1).data)
-        # inform learning agents of the game start
         for i in range(len(self.agents)):
             agent = self.agents[i]
             if not agent:
                 self.mute(i)
-                # this is a null agent, meaning it failed to load
-                # the other team wins
+
                 print("Agent %d failed to load" % i, file=sys.stderr)
                 self.unmute()
                 self._agentCrash(i, quiet=True)
@@ -584,7 +526,6 @@ class Game:
             else:
                 observation = self.state.deepCopy()
 
-            # Solicit an action
             action = None
             self.mute(agentIndex)
             if self.catchExceptions:
@@ -644,10 +585,7 @@ class Game:
                 self.state = self.state.generateChild( agentIndex, action )
             # Change the display
             self.display.update( self.state.data )
-            ###idx = agentIndex - agentIndex % 2 + 1
-            ###self.display.update( self.state.makeObservation(idx).data )
 
-            # Allow for game specific conditions (winning, losing, etc.)
             self.rules.process(self.state, self)
             # Track progress
             if agentIndex == numAgents + 1: self.numMoves += 1
@@ -656,7 +594,6 @@ class Game:
             if _BOINC_ENABLED:
                 boinc.set_fraction_done(self.getProgress())
 
-        # inform a learning agent of the game result
         for agentIndex, agent in enumerate(self.agents):
             if "final" in dir( agent ) :
                 try:

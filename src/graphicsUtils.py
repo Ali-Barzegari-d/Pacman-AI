@@ -65,7 +65,6 @@ def begin_graphics(width=640, height=480, color=formatColor(0, 0, 0), title=None
     except:
         _root_window = None
         raise
-    # Bind to key-down and key-up events
     _root_window.bind( "<KeyPress>", _keypress )
     _root_window.bind( "<KeyRelease>", _keyrelease )
     _root_window.bind( "<FocusIn>", _clear_keys )
@@ -117,10 +116,6 @@ def draw_background():
 
 def _destroy_window(event=None):
     sys.exit(0)
-#    global _root_window
-#    _root_window.destroy()
-#    _root_window = None
-    #print("DESTROY")
 
 def end_graphics():
     global _root_window, _canvas, _mouse_enabled
@@ -177,8 +172,6 @@ def image(pos, file="../../blueghost.gif"):
     x, y = pos
     # img = PhotoImage(file=file)
     return _canvas.create_image(x, y, image = tkinter.PhotoImage(file=file), anchor = tkinter.NW)
-
-
 def refresh():
     _canvas.update_idletasks()
 
@@ -278,8 +271,6 @@ def keys_waiting():
     _keyswaiting = {}
     return keys
 
-# Block for a list of keys...
-
 def wait_for_keys():
     keys = []
     while keys == []:
@@ -345,7 +336,6 @@ def move_by(object, x, y=None,
         _canvas.tag_raise(object)
 
 def writePostscript(filename):
-    "Writes the current canvas to a postscript file."
     psfile = open(filename, 'w')
     psfile.write(_canvas.postscript(pageanchor='sw',
                      y='0.c',

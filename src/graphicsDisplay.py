@@ -69,9 +69,7 @@ class InfoPane:
         self.drawPane()
 
     def toScreen(self, pos, y = None):
-        """
-          Translates a point relative from the bottom left of the info pane.
-        """
+      
         if y == None:
             x,y = pos
         else:
@@ -198,9 +196,6 @@ class PacmanGraphics:
         refresh()
 
     def swapImages(self, agentIndex, newState):
-        """
-          Changes an image from a ghost to a pacman or vis versa (for capture)
-        """
         prevState, prevImage = self.agentImages[agentIndex]
         for item in prevImage: remove_from_screen(item)
         if newState.isPacman:
@@ -410,7 +405,6 @@ class PacmanGraphics:
         for xNum, x in enumerate(wallMatrix):
             if self.capture and (xNum * 2) < wallMatrix.width: wallColor = TEAM_COLORS[0]
             if self.capture and (xNum * 2) >= wallMatrix.width: wallColor = TEAM_COLORS[1]
-
             for yNum, cell in enumerate(x):
                 if cell: # There's a wall here
                     pos = (xNum, yNum)
@@ -539,9 +533,6 @@ class PacmanGraphics:
         remove_from_screen(capsuleImages[(x, y)])
 
     def drawExpandedCells(self, cells):
-        """
-        Draws an overlay of expanded grid positions for search agents
-        """
         n = float(len(cells))
         baseColor = [1.0, 0.0, 0.0]
         self.clearExpandedCells()
@@ -584,7 +575,6 @@ class PacmanGraphics:
                     color = [min(1.0, c + 0.95 * g * weight ** .3) for c,g in zip(color, gcolor)]
                 changeColor(image, formatColor(*color))
         refresh()
-
 class FirstPersonPacmanGraphics(PacmanGraphics):
     def __init__(self, zoom = 1.0, showGhosts = True, capture = False, frameTime=0):
         PacmanGraphics.__init__(self, zoom, frameTime=frameTime)

@@ -78,10 +78,6 @@ def confirmGenerate():
         else:
             print('please answer either "yes" or "no"')
 
-# TODO: Fix this so that it tracebacks work correctly
-# Looking at source of the traceback module, presuming it works
-# the same as the intepreters, it uses co_filename.  This is,
-# however, a readonly attribute.
 def setModuleName(module, filename):
     functionType = type(confirmGenerate)
     classType = type(optparse.Option)
@@ -97,15 +93,8 @@ def setModuleName(module, filename):
             # TODO: assign member __file__'s?
         #print(i, type(o))
 
-
-#from cStringIO import StringIO
-
 def loadModuleString(moduleSource):
-    # Below broken, imp doesn't believe its being passed a file:
-    #    ValueError: load_module arg#2 should be a file or None
-    #
-    #f = StringIO(moduleCodeDict[k])
-    #tmp = imp.load_module(k, f, k, (".py", "r", imp.PY_SOURCE))
+
     tmp = imp.new_module(k)
     exec(moduleCodeDict[k] in tmp.__dict__)
     setModuleName(tmp, k)
@@ -127,13 +116,11 @@ def readFile(path, root=""):
 ERROR_HINT_MAP = {
   'q1': {
     "<type 'exceptions.IndexError'>": """
-     
     """
   },
   'q3': {
       "<type 'exceptions.AttributeError'>": """
-        
-
+    
     """
   }
 }
@@ -211,8 +198,7 @@ def getTestSubdirs(testParser, testRoot, questionToGrade):
 def evaluate(generateSolutions, testRoot, moduleDict, exceptionMap=ERROR_HINT_MAP,
              edxOutput=False, muteOutput=False, gsOutput=False,
             printTestCase=False, questionToGrade=None, display=None):
-    # imports of testbench code.  note that the testClasses import must follow
-    # the import of student code due to dependencies
+
     import testParser
     import testClasses
     for module in moduleDict:
@@ -226,13 +212,11 @@ def evaluate(generateSolutions, testRoot, moduleDict, exceptionMap=ERROR_HINT_MA
         if not os.path.isdir(subdir_path) or q[0] == '.':
             continue
 
-        # create a question object
         questionDict = testParser.TestParser(os.path.join(subdir_path, 'CONFIG')).parse()
         questionClass = getattr(testClasses, questionDict['class'])
         question = questionClass(questionDict, display)
         questionDicts[q] = questionDict
 
-        # load test cases into question
         tests = filter(lambda t: re.match('[^#~.].*\.test\Z', t), os.listdir(subdir_path))
         tests = map(lambda t: re.match('(.*)\.test\Z', t).group(1), tests)
         for t in sorted(tests):
@@ -259,7 +243,6 @@ def evaluate(generateSolutions, testRoot, moduleDict, exceptionMap=ERROR_HINT_MA
                         return lambda grades: testCase.execute(grades, moduleDict, solutionDict)
             question.addTestCase(testCase, makefun(testCase, solution_file))
 
-        # Note extra function is necessary for scoping reasons
         def makefun(question):
             return lambda grades: question.execute(grades)
         setattr(sys.modules[__name__], q, makefun(question))
@@ -274,9 +257,6 @@ def evaluate(generateSolutions, testRoot, moduleDict, exceptionMap=ERROR_HINT_MA
 
     grades.grade(sys.modules[__name__], bonusPic = projectParams.BONUS_PIC)
     return grades.points
-
-
-
 def getDisplay(graphicsByDefault, options=None):
     graphics = graphicsByDefault
     if options is not None and options.noGraphics:

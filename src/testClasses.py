@@ -1,8 +1,6 @@
 import inspect
 import re
 import sys
-
-
 class Question(object):
 
     def raiseNotDefined(self):
@@ -26,11 +24,9 @@ class Question(object):
     def execute(self, grades):
         self.raiseNotDefined()
 
-# Question in which all test cases must be passed in order to receive credit
 class PassAllTestsQuestion(Question):
 
     def execute(self, grades):
-        # TODO: is this the right way to use grades?  The autograder doesn't seem to use it.
         testsFailed = False
         grades.assignZeroCredit()
         for _, f in self.testCases:
@@ -47,7 +43,7 @@ class ExtraCreditPassAllTestsQuestion(Question):
         self.extraPoints = int(questionDict['extra_points'])
 
     def execute(self, grades):
-        # TODO: is this the right way to use grades?  The autograder doesn't seem to use it.
+
         testsFailed = False
         grades.assignZeroCredit()
         for _, f in self.testCases:
@@ -63,7 +59,6 @@ class ExtraCreditPassAllTestsQuestion(Question):
 class HackedPartialCreditQuestion(Question):
 
     def execute(self, grades):
-        # TODO: is this the right way to use grades?  The autograder doesn't seem to use it.
         grades.assignZeroCredit()
 
         points = 0
@@ -80,8 +75,6 @@ class HackedPartialCreditQuestion(Question):
             grades.assignZeroCredit()
         else:
             grades.addPoints(int(points))
-
-
 class Q6PartialCreditQuestion(Question):
 
     def execute(self, grades):
@@ -103,14 +96,12 @@ class PartialCreditQuestion(Question):
                 grades.assignZeroCredit()
                 grades.fail("Tests failed.")
                 return False
-
 class NumberPassedQuestion(Question):
     """Grade is the number of test cases passed."""
 
     def execute(self, grades):
         grades.addPoints([f(grades) for _, f in self.testCases].count(True))
 
-# Template modeling a generic test case
 class TestCase(object):
 
     def raiseNotDefined(self):
@@ -159,9 +150,7 @@ class TestCase(object):
 
         for line in self.messages:
             grades.addMessage('    %s' % (line,))
-
         return True
-
     def addMessage(self, message):
         self.messages.extend(message.split('\n'))
 

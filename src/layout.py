@@ -6,9 +6,6 @@ from functools import reduce
 
 VISIBILITY_MATRIX_CACHE = {}
 class Layout:
-    """
-    A Layout manages the static information about the game board.
-    """
     def __init__(self, layoutText):
         self.width = len(layoutText[0])
         self.height= len(layoutText)

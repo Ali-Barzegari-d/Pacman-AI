@@ -79,10 +79,7 @@ class Grades:
 
 
 """)
-    print("""
-Your grades are NOT yet registered.  To register your grades, make sure
-to follow your instructor's guidelines to receive credit on your project.
-""")
+
 
     if self.edxOutput:
         self.produceOutput()
@@ -90,10 +87,7 @@ to follow your instructor's guidelines to receive credit on your project.
         self.produceGradeScopeOutput()
 
   def addExceptionMessage(self, q, inst, traceback):
-    """
-    Method to format the exception message, this is more complicated because
-    we need to cgi.escape the traceback but wrap the exception in a <pre> tag
-    """
+   
     self.fail('FAIL: Exception raised: %s' % inst)
     self.addMessage('')
     for line in traceback.format_exc().split('\n'):
@@ -109,8 +103,6 @@ to follow your instructor's guidelines to receive credit on your project.
       questionMap = exceptionMap.get(questionName)
       if (questionMap.get(typeOf)):
         errorHint = questionMap.get(typeOf)
-    # fall back to general error messages if a question specific
-    # one does not exist
     if (exceptionMap.get(typeOf)):
       errorHint = exceptionMap.get(typeOf)
 
@@ -246,8 +238,7 @@ to follow your instructor's guidelines to receive credit on your project.
     print("WARNING**** addMessageToEmail is deprecated %s" % message)
     for line in message.split('\n'):
       pass
-      #print('%%% ' + line + ' %%%')
-      #self.messages[self.currentQuestion].append(line)
+
 class Counter(dict):
   """
   Dict with default 0
