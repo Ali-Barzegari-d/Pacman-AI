@@ -10,8 +10,6 @@
 # (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
 # Student side autograding was added by Brad Miller, Nick Hay, and
 # Pieter Abbeel (pabbeel@cs.berkeley.edu).
-
-
 # imports from python standard library
 import grading
 import imp
@@ -26,7 +24,6 @@ try:
     from pacman import GameState
 except:
     pass
-
 # register arguments and set default values
 def readCommand(argv):
     parser = optparse.OptionParser(description = 'Run public tests on student code')
@@ -81,8 +78,6 @@ def readCommand(argv):
                     help = 'No graphics display for pacman games.')
     (options, args) = parser.parse_args(argv)
     return options
-
-
 # confirm we should author solution files
 def confirmGenerate():
     print('WARNING: this action will overwrite any solution files.')
@@ -95,7 +90,6 @@ def confirmGenerate():
             sys.exit(0)
         else:
             print('please answer either "yes" or "no"')
-
 
 # TODO: Fix this so that it tracebacks work correctly
 # Looking at source of the traceback module, presuming it works
@@ -142,11 +136,6 @@ def readFile(path, root=""):
     with open(os.path.join(root, path), 'r') as handle:
         return handle.read()
 
-
-#######################################################################
-# Error Hint Map
-#######################################################################
-
 # TODO: use these
 ERROR_HINT_MAP = {
   'q1': {
@@ -171,7 +160,6 @@ ERROR_HINT_MAP = {
     """
   }
 }
-
 import pprint
 
 def splitStrings(d):
@@ -241,7 +229,6 @@ def getTestSubdirs(testParser, testRoot, questionToGrade):
     if 'order' in problemDict:
         return problemDict['order'].split()
     return sorted(os.listdir(testRoot))
-
 
 # evaluate student code
 def evaluate(generateSolutions, testRoot, moduleDict, exceptionMap=ERROR_HINT_MAP,
@@ -326,20 +313,11 @@ def getDisplay(graphicsByDefault, options=None):
     import textDisplay
     return textDisplay.NullGraphics()
 
-
-
-
 if __name__ == '__main__':
     options = readCommand(sys.argv)
     if options.generateSolutions:
         confirmGenerate()
     codePaths = options.studentCode.split(',')
-    # moduleCodeDict = {}
-    # for cp in codePaths:
-    #     moduleName = re.match('.*?([^/]*)\.py', cp).group(1)
-    #     moduleCodeDict[moduleName] = readFile(cp, root=options.codeRoot)
-    # moduleCodeDict['projectTestClasses'] = readFile(options.testCaseCode, root=options.codeRoot)
-    # moduleDict = loadModuleDict(moduleCodeDict)
 
     moduleDict = {}
     for cp in codePaths:
@@ -347,7 +325,6 @@ if __name__ == '__main__':
         moduleDict[moduleName] = loadModuleFile(moduleName, os.path.join(options.codeRoot, cp))
     moduleName = re.match('.*?([^/]*)\.py', options.testCaseCode).group(1)
     moduleDict['projectTestClasses'] = loadModuleFile(moduleName, os.path.join(options.codeRoot, options.testCaseCode))
-
 
     if options.runTest != None:
         runTest(options.runTest, moduleDict, printTestCase=options.printTestCase, display=getDisplay(True, options))

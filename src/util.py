@@ -1,35 +1,6 @@
-# util.py
-# -------
-# Licensing Information:  You are free to use or extend these projects for
-# educational purposes provided that (1) you do not distribute or publish
-# solutions, (2) you retain this notice, and (3) you provide clear
-# attribution to UC Berkeley, including a link to http://ai.berkeley.edu.
-# 
-# Attribution Information: The Pacman AI projects were developed at UC Berkeley.
-# The core projects and autograders were primarily created by John DeNero
-# (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
-# Student side autograding was added by Brad Miller, Nick Hay, and
-# Pieter Abbeel (pabbeel@cs.berkeley.edu).
-
-
-# util.py
-# -------
-# Licensing Information:  You are free to use or extend these projects for
-# educational purposes provided that (1) you do not distribute or publish
-# solutions, (2) you retain this notice, and (3) you provide clear
-# attribution to UC Berkeley, including a link to http://ai.berkeley.edu.
-# 
-# Attribution Information: The Pacman AI projects were developed at UC Berkeley.
-# The core projects and autograders were primarily created by John DeNero
-# (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
-# Student side autograding was added by Brad Miller, Nick Hay, and
-# Pieter Abbeel (pabbeel@cs.berkeley.edu).
-
-
 import sys
 import inspect
 import heapq, random
-
 
 class FixedRandom:
     def __init__(self):
@@ -191,9 +162,7 @@ class PriorityQueue:
         return len(self.heap) == 0
 
     def update(self, item, priority):
-        # If item already in priority queue with higher priority, update its priority and rebuild the heap.
-        # If item already in priority queue with equal or lower priority, do nothing.
-        # If item not in priority queue, do the same thing as self.push.
+
         for index, (p, c, i) in enumerate(self.heap):
             if i == item:
                 if p <= priority:
@@ -449,10 +418,8 @@ def raiseNotDefined():
     fileName = inspect.stack()[1][1]
     line = inspect.stack()[1][2]
     method = inspect.stack()[1][3]
-
     print("*** Method not implemented: %s at line %s of %s" % (method, line, fileName))
     sys.exit(1)
-
 def normalize(vectorOrCounter):
     """
     normalize a vector or counter by dividing each value by the sum of all values
@@ -501,7 +468,6 @@ def sample(distribution, values = None):
         i += 1
         total += distribution[i]
     return values[i]
-
 def sampleFromCounter(ctr):
     items = sorted(ctr.items())
     return sample([v for k,v in items], [k for k,v in items])
@@ -530,7 +496,6 @@ def chooseFromDistribution( distribution ):
     for prob, element in distribution:
         base += prob
         if r <= base: return element
-
 def nearestPoint( pos ):
     """
     Finds the nearest grid point to a position (discretizes).
@@ -540,7 +505,6 @@ def nearestPoint( pos ):
     grid_row = int( current_row + 0.5 )
     grid_col = int( current_col + 0.5 )
     return ( grid_row, grid_col )
-
 def sign( x ):
     """
     Returns 1 or -1 depending on the sign of x
@@ -549,7 +513,6 @@ def sign( x ):
         return 1
     else:
         return -1
-
 def arrayInvert(array):
     """
     Inverts a matrix stored as a list of lists.
@@ -597,21 +560,11 @@ def pause():
     input("<Press enter/return to continue>")
 
 
-# code to handle timeouts
-#
-# FIXME
-# NOTE: TimeoutFuncton is NOT reentrant.  Later timeouts will silently
-# disable earlier timeouts.  Could be solved by maintaining a global list
-# of active time outs.  Currently, questions which have test cases calling
-# this have all student code so wrapped.
-#
 import signal
 import time
 class TimeoutFunctionException(Exception):
     """Exception to raise on a timeout"""
     pass
-
-
 class TimeoutFunction:
     def __init__(self, function, timeout):
         self.timeout = timeout
@@ -621,9 +574,7 @@ class TimeoutFunction:
         raise TimeoutFunctionException()
 
     def __call__(self, *args, **keyArgs):
-        # If we have SIGALRM signal, use it to cause an exception if and
-        # when this function runs too long.  Otherwise check the time taken
-        # after the method has returned, and throw an exception then.
+
         if hasattr(signal, 'SIGALRM'):
             old = signal.signal(signal.SIGALRM, self.handle_timeout)
             signal.alarm(self.timeout)
@@ -640,8 +591,6 @@ class TimeoutFunction:
                 self.handle_timeout(None, None)
         return result
 
-
-
 _ORIGINAL_STDOUT = None
 _ORIGINAL_STDERR = None
 _MUTED = False
@@ -649,7 +598,6 @@ _MUTED = False
 class WritableNull:
     def write(self, string):
         pass
-
 def mutePrint():
     global _ORIGINAL_STDOUT, _ORIGINAL_STDERR, _MUTED
     if _MUTED:
@@ -669,4 +617,3 @@ def unmutePrint():
 
     sys.stdout = _ORIGINAL_STDOUT
     #sys.stderr = _ORIGINAL_STDERR
-

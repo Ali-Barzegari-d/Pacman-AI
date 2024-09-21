@@ -1,17 +1,3 @@
-# graphicsUtils.py
-# ----------------
-# Licensing Information:  You are free to use or extend these projects for
-# educational purposes provided that (1) you do not distribute or publish
-# solutions, (2) you retain this notice, and (3) you provide clear
-# attribution to UC Berkeley, including a link to http://ai.berkeley.edu.
-# 
-# Attribution Information: The Pacman AI projects were developed at UC Berkeley.
-# The core projects and autograders were primarily created by John DeNero
-# (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
-# Student side autograding was added by Brad Miller, Nick Hay, and
-# Pieter Abbeel (pabbeel@cs.berkeley.edu).
-
-
 import sys
 import math
 import random
@@ -57,23 +43,19 @@ def sleep(secs):
 def begin_graphics(width=640, height=480, color=formatColor(0, 0, 0), title=None):
 
     global _root_window, _canvas, _canvas_x, _canvas_y, _canvas_xs, _canvas_ys, _bg_color
-
     # Check for duplicate call
     if _root_window is not None:
         # Lose the window.
         _root_window.destroy()
-
     # Save the canvas size parameters
     _canvas_xs, _canvas_ys = width - 1, height - 1
     _canvas_x, _canvas_y = 0, _canvas_ys
     _bg_color = color
-
     # Create the root window
     _root_window = tkinter.Tk()
     _root_window.protocol('WM_DELETE_WINDOW', _destroy_window)
     _root_window.title(title or 'Graphics Window')
     _root_window.resizable(0, 0)
-
     # Create the canvas object
     try:
         _canvas = tkinter.Canvas(_root_window, width=width, height=height)
@@ -83,7 +65,6 @@ def begin_graphics(width=640, height=480, color=formatColor(0, 0, 0), title=None
     except:
         _root_window = None
         raise
-
     # Bind to key-down and key-up events
     _root_window.bind( "<KeyPress>", _keypress )
     _root_window.bind( "<KeyRelease>", _keyrelease )
@@ -243,16 +224,9 @@ def line(here, there, color=formatColor(0, 0, 0), width=2):
     x1, y1 = there[0], there[1]
     return _canvas.create_line(x0, y0, x1, y1, fill=color, width=width)
 
-##############################################################################
-### Keypress handling ########################################################
-##############################################################################
-
-# We bind to key-down and key-up events.
-
 _keysdown = {}
 _keyswaiting = {}
-# This holds an unprocessed key release.  We delay key releases by up to
-# one call to keys_pressed() to get round a problem with auto repeat.
+
 _got_release = None
 
 def _keypress(event):
@@ -391,7 +365,6 @@ ghost_shape = [
     (- 0.5, - 0.5),
     (- 0.25, - 0.75)
   ]
-
 if __name__ == '__main__':
     begin_graphics()
     clear_screen()

@@ -1,17 +1,3 @@
-# searchAgents.py
-# ---------------
-# Licensing Information:  You are free to use or extend these projects for
-# educational purposes provided that (1) you do not distribute or publish
-# solutions, (2) you retain this notice, and (3) you provide clear
-# attribution to UC Berkeley, including a link to http://ai.berkeley.edu.
-# 
-# Attribution Information: The Pacman AI projects were developed at UC Berkeley.
-# The core projects and autograders were primarily created by John DeNero
-# (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
-# Student side autograding was added by Brad Miller, Nick Hay, and
-# Pieter Abbeel (pabbeel@cs.berkeley.edu).
-
-
 """
 This file contains all of the agents that can be selected to control Pacman.  To
 select an agent, use the '-p' option when running pacman.py.  Arguments can be
@@ -50,11 +36,6 @@ class GoWestAgent(Agent):
             return Directions.WEST
         else:
             return Directions.STOP
-
-#######################################################
-# This portion is written for you, but will only work #
-#       after you fill in parts of search.py          #
-#######################################################
 
 class SearchAgent(Agent):
     """
@@ -160,7 +141,6 @@ class PositionSearchProblem(search.SearchProblem):
         self.visualize = visualize
         if warn and (gameState.getNumFood() != 1 or not gameState.hasFood(*goal)):
             print('Warning: this does not look like a regular search maze')
-
         # For display purposes
         self._visited, self._visitedlist, self._expanded = {}, [], 0 # DO NOT CHANGE
 
@@ -169,7 +149,6 @@ class PositionSearchProblem(search.SearchProblem):
 
     def isGoalState(self, state):
         isGoal = state == self.goal
-
         # For display purposes only
         if isGoal and self.visualize:
             self._visitedlist.append(state)
@@ -197,7 +176,6 @@ class PositionSearchProblem(search.SearchProblem):
             nextState = self.getNextState(state, action)
             cost = self.getActionCost(state, action, nextState)
             children.append( ( nextState, action, cost) )
-
         # Bookkeeping for display purposes
         self._expanded += 1 # DO NOT CHANGE
         if state not in self._visited:
@@ -282,10 +260,6 @@ def euclideanHeuristic(position, problem, info={}):
     xy2 = problem.goal
     return ( (xy1[0] - xy2[0]) ** 2 + (xy1[1] - xy2[1]) ** 2 ) ** 0.5
 
-#####################################################
-# This portion is incomplete.  Time to write code!  #
-#####################################################
-
 class CornersProblem(search.SearchProblem):
     """
     This search problem finds paths through all four corners of a layout.
@@ -338,8 +312,7 @@ class CornersProblem(search.SearchProblem):
 
         children = []
         for action in self.getActions(state):
-            # Add a child state to the child list if the action is legal
-            # You should call getActions, getActionCost, and getNextState.
+
             "*** YOUR CODE HERE ***"
             next_state = self.getNextState(state, action)
             cost = self.getActionCost(state, action, next_state)
@@ -423,7 +396,6 @@ class AStarCornersAgent(SearchAgent):
     def __init__(self):
         self.searchFunction = lambda prob: search.aStarSearch(prob, cornersHeuristic)
         self.searchType = CornersProblem
-
 class FoodSearchProblem:
     """
     A search problem associated with finding the a path that collects all of the
@@ -495,7 +467,6 @@ class FoodSearchProblem:
                 return 999999
             cost += 1
         return cost
-
 class AStarFoodSearchAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
     def __init__(self):

@@ -1,26 +1,8 @@
-# testClasses.py
-# --------------
-# Licensing Information:  You are free to use or extend these projects for
-# educational purposes provided that (1) you do not distribute or publish
-# solutions, (2) you retain this notice, and (3) you provide clear
-# attribution to UC Berkeley, including a link to http://ai.berkeley.edu.
-# 
-# Attribution Information: The Pacman AI projects were developed at UC Berkeley.
-# The core projects and autograders were primarily created by John DeNero
-# (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
-# Student side autograding was added by Brad Miller, Nick Hay, and
-# Pieter Abbeel (pabbeel@cs.berkeley.edu).
-
-
-# import modules from python standard library
 import inspect
 import re
 import sys
 
 
-# Class which models a question in a project.  Note that questions have a
-# maximum number of points they are worth, and are composed of a series of
-# test cases
 class Question(object):
 
     def raiseNotDefined(self):
@@ -38,8 +20,6 @@ class Question(object):
     def getMaxPoints(self):
         return self.maxPoints
 
-    # Note that 'thunk' must be a function which accepts a single argument,
-    # namely a 'grading' object
     def addTestCase(self, testCase, thunk):
         self.testCases.append((testCase, thunk))
 
@@ -79,8 +59,7 @@ class ExtraCreditPassAllTestsQuestion(Question):
             grades.assignFullCredit()
             grades.addPoints(self.extraPoints)
 
-# Question in which predict credit is given for test cases with a ``points'' property.
-# All other tests are mandatory and must be passed.
+
 class HackedPartialCreditQuestion(Question):
 
     def execute(self, grades):
@@ -129,17 +108,11 @@ class PartialCreditQuestion(Question):
                 grades.fail("Tests failed.")
                 return False
 
-
-
 class NumberPassedQuestion(Question):
     """Grade is the number of test cases passed."""
 
     def execute(self, grades):
         grades.addPoints([f(grades) for _, f in self.testCases].count(True))
-
-
-
-
 
 # Template modeling a generic test case
 class TestCase(object):
@@ -167,12 +140,6 @@ class TestCase(object):
         self.raiseNotDefined()
         return True
 
-    # Tests should call the following messages for grading
-    # to ensure a uniform format for test output.
-    #
-    # TODO: this is hairy, but we need to fix grading.py's interface
-    # to get a nice hierarchical project - question - test structure,
-    # then these should be moved into Question proper.
     def testPass(self, grades):
         grades.addMessage('PASS: %s' % (self.path,))
         for line in self.messages:
@@ -185,8 +152,6 @@ class TestCase(object):
             grades.addMessage('    %s' % (line,))
         return False
 
-    # This should really be question level?
-    #
     def testPartial(self, grades, points, maxPoints):
         grades.addPoints(points)
         extraCredit = max(0, points - maxPoints)

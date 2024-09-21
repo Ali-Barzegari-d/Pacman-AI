@@ -1,27 +1,6 @@
-# graphicsDisplay.py
-# ------------------
-# Licensing Information:  You are free to use or extend these projects for
-# educational purposes provided that (1) you do not distribute or publish
-# solutions, (2) you retain this notice, and (3) you provide clear
-# attribution to UC Berkeley, including a link to http://ai.berkeley.edu.
-# 
-# Attribution Information: The Pacman AI projects were developed at UC Berkeley.
-# The core projects and autograders were primarily created by John DeNero
-# (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
-# Student side autograding was added by Brad Miller, Nick Hay, and
-# Pieter Abbeel (pabbeel@cs.berkeley.edu).
-
-
 from graphicsUtils import *
 import math, time
 from game import Directions
-
-###########################
-#  GRAPHICS DISPLAY CODE  #
-###########################
-
-# Most code by Dan Klein and John Denero written or rewritten for cs188, UC Berkeley.
-# Some code from a Pacman implementation by LiveWires, and used / modified with permission.
 
 DEFAULT_GRID_SIZE = 30.0
 INFO_PANE_HEIGHT = 35
@@ -150,7 +129,6 @@ class InfoPane:
 
     def clearMessage(self):
         pass
-
 
 class PacmanGraphics:
     def __init__(self, zoom=1.0, frameTime=0.0, capture=False):
@@ -365,7 +343,6 @@ class PacmanGraphics:
         ghostImageParts.append(rightEye)
         ghostImageParts.append(leftPupil)
         ghostImageParts.append(rightPupil)
-
         return ghostImageParts
 
     def moveEyes(self, pos, dir, eyes):
@@ -657,12 +634,6 @@ class FirstPersonPacmanGraphics(PacmanGraphics):
 def add(x, y):
     return (x[0] + y[0], x[1] + y[1])
 
-
-# Saving graphical output
-# -----------------------
-# Note: to make an animated gif from this postscript output, try the command:
-# convert -delay 7 -loop 1 -compress lzw -layers optimize frame* out.gif
-# convert is part of imagemagick (freeware)
 
 SAVE_POSTSCRIPT = False
 POSTSCRIPT_OUTPUT_DIR = 'frames'

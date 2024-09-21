@@ -1,16 +1,3 @@
-# pacman.py
-# ---------
-# Licensing Information:  You are free to use or extend these projects for
-# educational purposes provided that (1) you do not distribute or publish
-# solutions, (2) you retain this notice, and (3) you provide clear
-# attribution to UC Berkeley, including a link to http://ai.berkeley.edu.
-# 
-# Attribution Information: The Pacman AI projects were developed at UC Berkeley.
-# The core projects and autograders were primarily created by John DeNero
-# (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
-# Student side autograding was added by Brad Miller, Nick Hay, and
-# Pieter Abbeel (pabbeel@cs.berkeley.edu).
-
 
 """
 Pacman.py holds the logic for the classic pacman game along with the main
@@ -48,10 +35,6 @@ from util import manhattanDistance
 import util, layout
 import sys, types, time, random, os
 
-###################################################
-# YOUR INTERFACE TO THE PACMAN WORLD: A GameState #
-###################################################
-
 class GameState:
     """
     A GameState specifies the full game state, including the food, capsules,
@@ -66,11 +49,6 @@ class GameState:
 
     Note that in classic Pacman, Pacman is always agent 0.
     """
-
-    ####################################################
-    # Accessor methods: use these to access state data #
-    ####################################################
-
     # static variable keeps track of which states have had getLegalActions called
     explored = set()
     def getAndResetExplored():
@@ -212,11 +190,6 @@ class GameState:
     def isWin( self ):
         return self.data._win
 
-    #############################################
-    #             Helper methods:               #
-    # You shouldn't need to call these directly #
-    #############################################
-
     def __init__( self, prevState = None ):
         """
         Generates a new state by copying information from its predecessor.
@@ -252,12 +225,6 @@ class GameState:
         Creates an initial game state from a layout array (see layout.py).
         """
         self.data.initialize(layout, numGhostAgents)
-
-############################################################################
-#                     THE HIDDEN SECRETS OF PACMAN                         #
-#                                                                          #
-# You shouldn't need to look through the code in this section of the file. #
-############################################################################
 
 SCARED_TIME = 40    # Moves ghosts are scared
 COLLISION_TOLERANCE = 0.7 # How close ghosts must be to Pacman to kill
@@ -454,9 +421,6 @@ class GhostRules:
         ghostState.configuration = ghostState.start
     placeGhost = staticmethod( placeGhost )
 
-#############################
-# FRAMEWORK TO START A GAME #
-#############################
 
 def default(str):
     return str + ' [Default: %default]'

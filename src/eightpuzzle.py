@@ -4,18 +4,9 @@
 # educational purposes provided that (1) you do not distribute or publish
 # solutions, (2) you retain this notice, and (3) you provide clear
 # attribution to UC Berkeley, including a link to http://ai.berkeley.edu.
-# 
-# Attribution Information: The Pacman AI projects were developed at UC Berkeley.
-# The core projects and autograders were primarily created by John DeNero
-# (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
-# Student side autograding was added by Brad Miller, Nick Hay, and
-# Pieter Abbeel (pabbeel@cs.berkeley.edu).
-
 
 import search
 import random
-
-# Module Classes
 
 class EightPuzzleState:
     """
@@ -88,7 +79,6 @@ class EightPuzzleState:
     def legalMoves( self ):
         """
           Returns a list of legal moves from the current state.
-
         Moves consist of moving the blank space up, down, left or right.
         These are encoded as 'up', 'down', 'left' and 'right' respectively.
 
@@ -134,7 +124,6 @@ class EightPuzzleState:
             newcol = col + 1
         else:
             raise "Illegal Move"
-
         # Create a copy of the current eightPuzzle
         newPuzzle = EightPuzzleState([0, 0, 0, 0, 0, 0, 0, 0, 0])
         newPuzzle.cells = [values[:] for values in self.cells]
@@ -144,7 +133,6 @@ class EightPuzzleState:
         newPuzzle.blankLocation = newrow, newcol
 
         return newPuzzle
-
     # Utilities for comparison and display
     def __eq__(self, other):
         """
@@ -184,7 +172,6 @@ class EightPuzzleState:
         return self.__getAsciiString()
 
 # TODO: Implement The methods in this class
-
 class EightPuzzleSearchProblem(search.SearchProblem):
     """
       Implementation of a SearchProblem for the  Eight Puzzle domain

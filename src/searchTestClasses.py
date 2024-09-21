@@ -1,17 +1,3 @@
-# searchTestClasses.py
-# --------------------
-# Licensing Information:  You are free to use or extend these projects for
-# educational purposes provided that (1) you do not distribute or publish
-# solutions, (2) you retain this notice, and (3) you provide clear
-# attribution to UC Berkeley, including a link to http://ai.berkeley.edu.
-# 
-# Attribution Information: The Pacman AI projects were developed at UC Berkeley.
-# The core projects and autograders were primarily created by John DeNero
-# (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
-# Student side autograding was added by Brad Miller, Nick Hay, and
-# Pieter Abbeel (pabbeel@cs.berkeley.edu).
-
-
 import sys
 import re
 import testClasses
@@ -28,9 +14,6 @@ def wrap_solution(solution):
         return '\n'.join(textwrap.wrap(' '.join(solution)))
     else:
         return str(solution)
-
-
-
 
 def followAction(state, action, problem):
   for child1, action1, cost1 in problem.expand(state):
@@ -218,9 +201,6 @@ class GraphSearchTest(testClasses.TestCase):
 
         return solution, problem.getExpandedStates(), None
 
-    # Run student code.  If an error message is returned, print error and return false.
-    # If a good solution is returned, printn the solution and return true; otherwise,
-    # print both the correct and student's solution and return false.
     def execute(self, grades, moduleDict, solutionDict):
         search = moduleDict['search']
         searchAgents = moduleDict['searchAgents']
@@ -476,23 +456,6 @@ class CornerProblemTest(testClasses.TestCase):
         handle.close()
 
 
-
-
-# template = """class: "HeuristicTest"
-#
-# heuristic: "foodHeuristic"
-# searchProblemClass: "FoodSearchProblem"
-# layoutName: "Test %s"
-# layout: \"\"\"
-# %s
-# \"\"\"
-# """
-#
-# for i, (_, _, l) in enumerate(doneTests + foodTests):
-#     f = open("food_heuristic_%s.test" % (i+1), "w")
-#     f.write(template % (i+1, "\n".join(l)))
-#     f.close()
-
 class HeuristicTest(testClasses.TestCase):
 
     def __init__(self, question, testDict):
@@ -571,10 +534,6 @@ class HeuristicTest(testClasses.TestCase):
         return True
 
 
-
-
-
-
 class HeuristicGrade(testClasses.TestCase):
 
     def __init__(self, question, testDict):
@@ -637,22 +596,6 @@ class HeuristicGrade(testClasses.TestCase):
         return True
 
 
-
-
-
-# template = """class: "ClosestDotTest"
-#
-# layoutName: "Test %s"
-# layout: \"\"\"
-# %s
-# \"\"\"
-# """
-#
-# for i, (_, _, l) in enumerate(foodTests):
-#     f = open("closest_dot_%s.test" % (i+1), "w")
-#     f.write(template % (i+1, "\n".join(l)))
-#     f.close()
-
 class ClosestDotTest(testClasses.TestCase):
 
     def __init__(self, question, testDict):
@@ -707,9 +650,6 @@ class ClosestDotTest(testClasses.TestCase):
         handle.write('solution_length: "%s"\n' % length)
         handle.close()
         return True
-
-
-
 
 class CornerHeuristicSanity(testClasses.TestCase):
 
@@ -786,8 +726,6 @@ class CornerHeuristicSanity(testClasses.TestCase):
         handle.close()
         return True
 
-
-
 class CornerHeuristicPacman(testClasses.TestCase):
 
     def __init__(self, question, testDict):
@@ -847,4 +785,3 @@ class CornerHeuristicPacman(testClasses.TestCase):
         handle.write('thresholds: "2000 1600 1200"\n')
         handle.close()
         return True
-
