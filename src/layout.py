@@ -1,17 +1,3 @@
-# layout.py
-# ---------
-# Licensing Information:  You are free to use or extend these projects for
-# educational purposes provided that (1) you do not distribute or publish
-# solutions, (2) you retain this notice, and (3) you provide clear
-# attribution to UC Berkeley, including a link to http://ai.berkeley.edu.
-# 
-# Attribution Information: The Pacman AI projects were developed at UC Berkeley.
-# The core projects and autograders were primarily created by John DeNero
-# (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
-# Student side autograding was added by Brad Miller, Nick Hay, and
-# Pieter Abbeel (pabbeel@cs.berkeley.edu).
-
-
 from util import manhattanDistance
 from game import Grid
 import os
@@ -19,12 +5,10 @@ import random
 from functools import reduce
 
 VISIBILITY_MATRIX_CACHE = {}
-
 class Layout:
     """
     A Layout manages the static information about the game board.
     """
-
     def __init__(self, layoutText):
         self.width = len(layoutText[0])
         self.height= len(layoutText)
