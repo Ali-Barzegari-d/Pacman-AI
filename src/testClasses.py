@@ -83,8 +83,6 @@ class HackedPartialCreditQuestion(Question):
 
 
 class Q6PartialCreditQuestion(Question):
-    """Fails any test which returns False, otherwise doesn't effect the grades object.
-    Partial credit tests will add the required points."""
 
     def execute(self, grades):
         grades.assignZeroCredit()
@@ -96,8 +94,6 @@ class Q6PartialCreditQuestion(Question):
             grades.assignZeroCredit()
 
 class PartialCreditQuestion(Question):
-    """Fails any test which returns False, otherwise doesn't effect the grades object.
-    Partial credit tests will add the required points."""
 
     def execute(self, grades):
         grades.assignZeroCredit()

@@ -5,12 +5,7 @@ import traceback
 import sys
 
 class Agent:
-    """
-    An agent must define a getAction method, but may also define the
-    following methods which will be called if they exist:
-
-    def registerInitialState(self, state): # inspects the starting state
-    """
+    
     def __init__(self, index=0):
         self.index = index
 
@@ -43,13 +38,6 @@ class Directions:
                STOP: STOP}
 
 class Configuration:
-    """
-    A Configuration holds the (x,y) coordinate of a character, along with its
-    traveling direction.
-
-    The convention for positions, like a graph, is that (0,0) is the lower left corner, x increases
-    horizontally and y increases vertically.  Therefore, north is the direction of increasing y, or (0,1).
-    """
 
     def __init__(self, pos, direction):
         self.pos = pos
@@ -78,13 +66,7 @@ class Configuration:
         return "(x,y)="+str(self.pos)+", "+str(self.direction)
 
     def generateChild(self, vector):
-        """
-        Generates a new configuration reached by translating the current
-        configuration by the action vector.  This is a low-level call and does
-        not attempt to respect the legality of the movement.
-
-        Actions are movement vectors.
-        """
+        
         x, y= self.pos
         dx, dy = vector
         direction = Actions.vectorToDirection(vector)
@@ -135,13 +117,7 @@ class AgentState:
         return self.configuration.getDirection()
 
 class Grid:
-    """
-    A 2-dimensional array of objects backed by a list of lists.  Data is accessed
-    via grid[x][y] where (x,y) are positions on a Pacman map with x horizontal,
-    y vertical and the origin (0,0) in the bottom left corner.
-
-    The __str__ method constructs an output that is oriented like a pacman board.
-    """
+    
     def __init__(self, width, height, initialValue=False, bitRepresentation=None):
         if initialValue not in [False, True]: raise Exception('Grids can only contain booleans')
         self.CELLS_PER_INT = 30

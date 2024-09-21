@@ -1,45 +1,11 @@
-# eightpuzzle.py
-# --------------
-# Licensing Information:  You are free to use or extend these projects for
-# educational purposes provided that (1) you do not distribute or publish
-# solutions, (2) you retain this notice, and (3) you provide clear
-# attribution to UC Berkeley, including a link to http://ai.berkeley.edu.
-
 import search
 import random
 
 class EightPuzzleState:
-    """
-    The Eight Puzzle is described in the course textbook on
-    page 64.
-
-    This class defines the mechanics of the puzzle itself.  The
-    task of recasting this puzzle as a search problem is left to
-    the EightPuzzleSearchProblem class.
-    """
+    
 
     def __init__( self, numbers ):
-        """
-          Constructs a new eight puzzle from an ordering of numbers.
-
-        numbers: a list of integers from 0 to 8 representing an
-          instance of the eight puzzle.  0 represents the blank
-          space.  Thus, the list
-
-            [1, 0, 2, 3, 4, 5, 6, 7, 8]
-
-          represents the eight puzzle:
-            -------------
-            | 1 |   | 2 |
-            -------------
-            | 3 | 4 | 5 |
-            -------------
-            | 6 | 7 | 8 |
-            ------------
-
-        The configuration of the puzzle is stored in a 2-dimensional
-        list (a list of lists) 'cells'.
-        """
+        
         self.cells = []
         numbers = numbers[:] # Make a copy so as not to cause side-effects.
         numbers.reverse()
@@ -51,23 +17,7 @@ class EightPuzzleState:
                     self.blankLocation = row, col
 
     def isGoal( self ):
-        """
-          Checks to see if the puzzle is in its goal state.
-
-            -------------
-            |   | 1 | 2 |
-            -------------
-            | 3 | 4 | 5 |
-            -------------
-            | 6 | 7 | 8 |
-            -------------
-
-        >>> EightPuzzleState([0, 1, 2, 3, 4, 5, 6, 7, 8]).isGoal()
-        True
-
-        >>> EightPuzzleState([1, 0, 2, 3, 4, 5, 6, 7, 8]).isGoal()
-        False
-        """
+        
         current = 0
         for row in range( 3 ):
             for col in range( 3 ):
@@ -77,14 +27,7 @@ class EightPuzzleState:
         return True
 
     def legalMoves( self ):
-        """
-          Returns a list of legal moves from the current state.
-        Moves consist of moving the blank space up, down, left or right.
-        These are encoded as 'up', 'down', 'left' and 'right' respectively.
-
-        >>> EightPuzzleState([0, 1, 2, 3, 4, 5, 6, 7, 8]).legalMoves()
-        ['down', 'right']
-        """
+        
         moves = []
         row, col = self.blankLocation
         if(row != 0):
@@ -98,17 +41,7 @@ class EightPuzzleState:
         return moves
 
     def result(self, move):
-        """
-          Returns a new eightPuzzle with the current state and blankLocation
-        updated based on the provided move.
-
-        The move should be a string drawn from a list returned by legalMoves.
-        Illegal moves will raise an exception, which may be an array bounds
-        exception.
-
-        NOTE: This function *does not* change the current object.  Instead,
-        it returns a new object.
-        """
+        
         row, col = self.blankLocation
         if(move == 'up'):
             newrow = row - 1
@@ -189,11 +122,7 @@ class EightPuzzleSearchProblem(search.SearchProblem):
         return state.isGoal()
 
     def expand(self,state):
-        """
-          Returns list of (child, action, stepCost) pairs where
-          each child is either left, right, up, or down
-          from the original state and the cost is 1.0 for each
-        """
+       
         child = []
         for a in self.getActions(state):
             next_state = self.getNextState(state, a)
@@ -230,23 +159,7 @@ EIGHT_PUZZLE_DATA = [[1, 0, 2, 3, 4, 5, 6, 7, 8],
                      [0, 3, 1, 6, 8, 2, 7, 5, 4]]
 
 def loadEightPuzzle(puzzleNumber):
-    """
-      puzzleNumber: The number of the eight puzzle to load.
-
-      Returns an eight puzzle object generated from one of the
-      provided puzzles in EIGHT_PUZZLE_DATA.
-
-      puzzleNumber can range from 0 to 5.
-
-      >>> print(loadEightPuzzle(0))
-      -------------
-      | 1 |   | 2 |
-      -------------
-      | 3 | 4 | 5 |
-      -------------
-      | 6 | 7 | 8 |
-      -------------
-    """
+    
     return EightPuzzleState(EIGHT_PUZZLE_DATA[puzzleNumber])
 
 def createRandomEightPuzzle(moves=100):

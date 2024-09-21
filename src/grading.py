@@ -10,11 +10,7 @@ class Grades:
   "A data structure for project grades, along with formatting code to display them"
   def __init__(self, projectName, questionsAndMaxesList,
                gsOutput=False, edxOutput=False, muteOutput=False):
-    """
-    Defines the grading scheme for a project
-      projectName: project name
-      questionsAndMaxesDict: a list of (question name, max points per question)
-    """
+    
     self.questions = [el[0] for el in questionsAndMaxesList]
     self.maxes = dict(questionsAndMaxesList)
     self.points = Counter()
@@ -35,10 +31,7 @@ class Grades:
     self.prereqs[question].add(prereq)
 
   def grade(self, gradingModule, exceptionMap = {}, bonusPic = False):
-    """
-    Grades each question
-      gradingModule: the module with all the grading functions (pass in with sys.modules[__name__])
-    """
+  
 
     completedQuestions = set([])
     for q in self.questions:
